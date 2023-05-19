@@ -1,0 +1,25 @@
+package com.security.library.config;
+
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.SecurityFilterChain;
+
+public class SpringSecurityConfig {
+
+	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+		
+		httpSecurity
+			.cors().disable()
+			.csrf().disable()
+			.authorizeHttpRequests()
+			.anyRequest()
+			.authenticated().and()
+			.exceptionHandling().and()
+			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		
+		return httpSecurity.build();
+			
+		
+	}
+	
+}

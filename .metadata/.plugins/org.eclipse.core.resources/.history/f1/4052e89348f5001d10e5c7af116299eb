@@ -1,0 +1,13 @@
+package com.security.library.dtos;
+
+import jakarta.persistence.Id;
+
+public class AddressDto {
+
+	@Id
+	private Integer aid;
+	private String localStreet;
+	private String city;
+	private String state;
+	
+}

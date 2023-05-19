@@ -1,0 +1,23 @@
+package com.services.service.responseDto;
+
+import java.util.Date;
+
+import com.services.service.entities.Customer;
+import com.services.service.entities.Employee;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+public class ServiceResponseDto {
+
+	private Integer serviceId;
+	private String service;
+	private Customer customer;
+	private Employee employee;
+	private Date appointmentBooking;
+	
+}

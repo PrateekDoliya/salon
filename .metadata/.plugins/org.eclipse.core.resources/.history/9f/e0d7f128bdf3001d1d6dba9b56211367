@@ -1,0 +1,77 @@
+package com.services.service.services.impl;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.services.service.entities.Services;
+import com.services.service.exception.ResourceNotFoundException;
+import com.services.service.repository.ServicesRepository;
+import com.services.service.requestDto.ServiceRequestDto;
+import com.services.service.responseDto.ServiceResponseDto;
+import com.services.service.services.ServicesService;
+
+public class ServicesServiceImpl implements ServicesService {
+
+	@Autowired
+	private ServicesRepository servicesRepository;
+	
+	@Autowired
+	private ModelMapper mapper;
+
+	@Override
+	public ServiceResponseDto createService(ServiceRequestDto serviceRequestDto) {
+		Services services = this.mapper.map(serviceRequestDto, Services.class);
+		Services savedService = this.servicesRepository.save(services);
+		return this.mapper.map(savedService, ServiceResponseDto.class);
+	}
+
+	@Override
+	public ServiceResponseDto updateService(Integer serviceId, ServiceRequestDto serviceRequestDto) {
+		Services serviceById = this.servicesRepository.findById(serviceId).orElseThrow(() -> new ResourceNotFoundException("Service", "service_id", serviceId));
+		serviceById.setService(serviceRequestDto.getService());
+		serviceById.setEmployee(serviceRequestDto.getEmployee());
+		serviceById.setAppointmentBooking(serviceRequestDto.getAppointmentBooking());
+		serviceById.setCustomers(serviceRequestDto.getCustomers());
+		Services updateService = this.servicesRepository.save(serviceById);
+		return this.mapper.map(updateService, ServiceResponseDto.class);
+	}
+
+	@Override
+	public ServiceResponseDto deleteService(Integer serviceId) {
+		Services serviceById = this.servicesRepository.findById(serviceId).orElseThrow(() -> new ResourceNotFoundException("Service", "service_id", serviceId));
+		this.servicesRepository.delete(serviceById);
+		return this.mapper.map(serviceById, ServiceResponseDto.class);
+	}
+
+	@Override
+	public List<ServiceResponseDto> getAllServices() {
+		List<Services> allServices = this.servicesRepository.findAll();
+		List<ServiceResponseDto> allServiceResponseDtos = allServices.stream().map(service -> this.mapper.map(service, ServiceResponseDto.class)).collect(Collectors.toList());
+		return allServiceResponseDtos;
+	}
+
+	@Override
+	public ServiceResponseDto getServiceById(Integer serviceId) {
+		Services serviceById = this.servicesRepository.findById(serviceId).orElseThrow(() -> new ResourceNotFoundException("Service", "service_id", serviceId));
+		return this.mapper.map(serviceById, ServiceResponseDto.class);
+	}
+
+	@Override
+	public List<ServiceResponseDto> getServiceByName(String serviceName) {
+		List<Services> serviceByServiceName = this.servicesRepository.findServiceByServiceName(serviceName);
+		List<ServiceResponseDto> serviceByNameResponseDtos = serviceByServiceName.stream().map( service -> this.mapper.map(service, ServiceResponseDto.class)).collect(Collectors.toList());
+		return serviceByNameResponseDtos;
+	}
+
+	@Override
+	public ServiceResponseDto getServiceByEmployeeId(Integer employeeId) {
+		
+		return null;
+	}
+	
+	
+	
+}

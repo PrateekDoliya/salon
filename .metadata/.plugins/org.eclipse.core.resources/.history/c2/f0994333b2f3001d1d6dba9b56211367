@@ -1,0 +1,15 @@
+package com.services.service.entitiess;
+
+import java.util.Date;
+
+public class Customer {
+
+	private Integer customerId;
+	private String customerName;
+	private String mobileNumber;
+	private String customerEmail;
+	private Date appointmentDate;
+	private Date dateOfOrder;
+	private Employee employee;
+	
+}

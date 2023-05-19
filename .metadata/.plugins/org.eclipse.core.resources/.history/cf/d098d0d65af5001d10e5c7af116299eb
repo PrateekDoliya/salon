@@ -1,0 +1,17 @@
+package com.security.library.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import com.security.library.entities.Employee;
+
+import jakarta.transaction.Transactional;
+
+@Repository
+public interface EmployeeAuthRepository extends JpaRepository<Employee, Integer> {
+	@Transactional
+	@Query(nativeQuery = true, value = "select (emp_id, fname) from employeeservice_salonapp.employee e where e.email= :email")
+	Employee findByEmail(String email);
+	
+}

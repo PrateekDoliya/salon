@@ -1,0 +1,33 @@
+package com.auth.service.entities;
+
+import java.time.LocalDate;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class Employee {
+
+	@Id
+	private Integer empId;
+	private String fname;
+	private String lname;
+	private String email;
+	private String password;
+	private String mobileNo;
+	private LocalDate dob;
+	private String gender;
+	private LocalDate dateOfJoining;
+	private LocalDate lastWorkingdate;
+	private String pancard;
+	private String aadharcard;
+	private Role role;
+	private Address address;
+//	private String familyDetails;
+//	private String attendance;
+	private String photo;
+	
+}

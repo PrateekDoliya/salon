@@ -1,0 +1,52 @@
+package com.customer.service.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.customer.service.requestDto.CustomerRequestDto;
+import com.customer.service.responseDto.ApiResponse;
+import com.customer.service.responseDto.CustomerResponseDto;
+import com.customer.service.services.CustomerService;
+
+@RestController
+@RequestMapping("/api/v1/customer")
+public class CustomerController {
+
+	@Autowired
+	private CustomerService customerService;
+
+	// CREATE
+	@PostMapping("/create")
+	public ResponseEntity<ApiResponse<CustomerResponseDto>> createCustomer(
+			@RequestBody CustomerRequestDto customerRequestDto) {
+		CustomerResponseDto customerResponseDto = this.customerService.createCustomer(customerRequestDto);
+		return ResponseEntity.status(HttpStatus.CREATED).body(
+				new ApiResponse<CustomerResponseDto>("Customer Created Successfully !!", true, customerResponseDto));
+	}
+
+	// update
+	@PutMapping("/update/{customerId}")
+	public ResponseEntity<ApiResponse<CustomerResponseDto>> updateCustomer(
+			@RequestBody CustomerRequestDto customerRequestDto, @PathVariable Integer customerId) {
+		CustomerResponseDto updateCustomer = this.customerService.updateCustomer(customerId, customerRequestDto);
+		return ResponseEntity.status(HttpStatus.CREATED)
+				.body(new ApiResponse<CustomerResponseDto>("Customer Updated Successfully !!", true, updateCustomer));
+	}
+
+	// update
+	@DeleteMappingg("/delete/{customerId}")
+	public ResponseEntity<ApiResponse<CustomerResponseDto>> deleteCustomer(@PathVariable Integer customerId) {
+		CustomerResponseDto updateCustomer = this.customerService.updateCustomer(custommerId, customerRequestDto);
+		return ResponseEntity.status(HttpStatus.CREATED)
+				.body(new ApiResponse<CustomerResponseDto>("Customer Updated Successfully !!", true, updateCustomer));
+	}
+
+}

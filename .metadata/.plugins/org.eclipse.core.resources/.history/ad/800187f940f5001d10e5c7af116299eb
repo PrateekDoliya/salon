@@ -1,0 +1,80 @@
+package com.auth.service.service.impl;
+
+import java.time.LocalDate;
+import java.util.Collection;
+import java.util.HashSet;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.auth.service.entities.Employee;
+import com.auth.service.repository.EmployeeRepository;
+import com.auth.service.requestDto.LoginRequest;
+import com.auth.service.responseDto.LoginResponse;
+import com.auth.service.service.EmployeeAuthenticationService;
+import com.security.library.jwt.util.JwtTokenUtil;
+import com.security.library.payloads.CommonResponse;
+
+@Service
+public class EmployeeAuthenticationServiceImpl<T> implements EmployeeAuthenticationService {
+
+	@Autowired
+	private EmployeeRepository employeeRepository;
+	
+	@Autowired
+	private JwtTokenUtil jwtTokenUtil;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private AuthenticationManager authenticationManager;
+	
+	private Logger logger = LoggerFactory.getLogger(EmployeeAuthenticationService.class);
+
+	@Override
+	public T doLogin(LoginRequest loginRequest) {
+		if(loginRequest.getEmail() == null || loginRequest.getPassword() == null ) {
+			logger.info("LoginService :  UserName and Password Can't be empty!!");
+			return (T) new CommonResponse("UserName and Password Can't be empty!!", 400 );	 
+		}
+		
+		Employee employee = this.employeeRepository.findByEmail(loginRequest.getEmail());
+		logger.info("LoginService : Login Employee : {}", employee);
+		
+		if(employee == null) {
+			logger.info("LoginService : Employee not found !!");
+			return (T) new CommonResponse("Employee not found!!", 404);
+		}
+		
+		String requestEncodedPassword = this.passwordEncoder.encode(loginRequest.getPassword());
+		logger.info("LoginService:: RequestEncodedPassword:"+ requestEncodedPassword);
+		if(!employee.getPassword().equals(requestEncodedPassword)) {
+			logger.info("LoginService : Password mismatch !!");
+			return (T) new CommonResponse("invalid Password", 404);
+		}
+			
+//		Authentication authenticate = this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail() ,loginRequest.getPassword()));
+//		logger.info("AUTHENTICATION-MANAGER-RESPONSE:"+ authenticate);
+		
+		logger.info("LoginService : Password matched !!");
+		UserDetails userDetails= new org.springframework.security.core.userdetails.User(loginRequest.getEmail(), loginRequest.getPassword(), true, true, true, true, new HashSet<>());
+		
+		String token = this.jwtTokenUtil.generateToken(userDetails);
+		logger.info("LoginService : login Success : {}", employee);
+		
+		
+		return (T) new LoginResponse(token, LocalDate.now(), employee);
+	}
+	
+	
+	
+}

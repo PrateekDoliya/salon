@@ -1,0 +1,5 @@
+package com.security.library.config;
+
+public class EmployeeDetailService {
+
+}

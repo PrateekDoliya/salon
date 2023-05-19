@@ -1,0 +1,14 @@
+package com.services.service.services.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.services.service.repository.ServicesRepository;
+
+public class ServicesServiceImpl {
+
+	@Autowired
+	private ServicesRepository servicesRepository;
+	
+	
+	
+}

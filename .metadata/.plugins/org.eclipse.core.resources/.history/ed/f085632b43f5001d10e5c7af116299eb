@@ -1,0 +1,9 @@
+package com.security.library.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface Employeerepository extends JpaRepository<Emplo, ID> {
+
+	
+	
+}

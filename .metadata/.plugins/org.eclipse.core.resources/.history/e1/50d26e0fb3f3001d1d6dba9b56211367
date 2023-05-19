@@ -1,0 +1,15 @@
+package com.services.service.requestDto;
+
+import java.util.Date;
+
+import com.services.service.entities.Customer;
+import com.services.service.entities.Employee;
+
+public class ServiceRequestDto {
+
+	private String service;
+	private Customer customer;
+	private Employee employee;
+	private Date appointmentBooking;
+	
+}

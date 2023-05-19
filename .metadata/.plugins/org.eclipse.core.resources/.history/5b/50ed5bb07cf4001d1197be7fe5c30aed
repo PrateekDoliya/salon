@@ -1,0 +1,18 @@
+package com.customer.service.services;
+
+public interface CustomerService {
+
+	// CREATE
+	
+	
+	// UPDATE
+	
+	// DELETE
+	
+	// GET ALL
+	
+	// GET BY ID
+	
+	// GET BY EMPLOYEE
+	
+}

@@ -1,0 +1,9 @@
+package com.services.service.responseDto;
+
+public class ResourceCreatedResponse {
+
+	private String message;
+	private Boolean success;
+	private T data;
+	
+}

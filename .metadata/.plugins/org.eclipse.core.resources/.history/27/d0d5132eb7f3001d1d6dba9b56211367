@@ -1,0 +1,11 @@
+package com.services.service.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.services.service.entities.Services;
+
+public interface ServicesRepository extends JpaRepository<Services, Integer> {
+	
+	
+	
+}

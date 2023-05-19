@@ -1,0 +1,67 @@
+package com.sloon.employee.services.impl;
+
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.sloon.employee.models.EmployeeData;
+import com.sloon.employee.models.RoleData;
+import com.sloon.employee.payloads.CommonResponse;
+import com.sloon.employee.payloads.EmployeeDTO;
+import com.sloon.employee.repo.EmployeeRepository;
+import com.sloon.employee.services.EmployeeService;
+
+@Service
+public class EmployeeServiceImpl implements EmployeeService {
+
+	@Autowired
+	private EmployeeRepository employeeRepository;
+
+	@Autowired
+	private ModelMapper modelMapper;
+	
+//	@Autowired
+//	private PasswordEncoder passwordEncoder;
+
+	@Override
+	public CommonResponse SaveEmployee(EmployeeDTO employeeDTO) {
+//		Employee employee=null;
+//		Optional<Employee> employeeOptional = employeeRepository.findByEmail(employeeDTO.getEmail());
+//		
+//		if (!employeeOptional.isEmpty()) {
+//			throw new RuntimeException("employee already exist with email");
+//		}
+//		employee = employeeOptional.get();
+		
+		EmployeeData employeeData = modelMapper.map(employeeDTO, EmployeeData.class);
+	    RoleData roleData = new RoleData("ROLE_EMPLOYEE", employeeData.getRoleData().getAuthorities());
+		employeeData = modelMapper.map(employeeDTO, EmployeeData.class);
+		employeeData.setRoleData(roleData);
+//		employee.setPassword(this.passwordEncoder.encode(employeeDTO.getPassword()));
+		employeeData.setPassword(employeeDTO.getPassword());
+		employeeData = employeeRepository.save(employeeData);
+		employeeDTO = modelMapper.map(employeeData, employeeDTO.getClass());
+		
+		return CommonResponse.builder().data(employeeData).timeStamp(LocalDate.now()).status(true).build();
+	}
+
+	@Override
+	public CommonResponse getAllEmployees() {
+		List<EmployeeData> allemployees = employeeRepository.findAll();
+		List<EmployeeDTO> allemployeeDtos = Arrays.asList(modelMapper.map(allemployees, EmployeeDTO[].class));
+		return CommonResponse.builder().data(allemployeeDtos).status(true).timeStamp(LocalDate.now()).build();
+	}
+
+	@Override
+	public CommonResponse getEmployeeById(Integer id) {
+		EmployeeData employeeData = employeeRepository.findById(id).orElseThrow(()-> new RuntimeException("No Employee found with id "+id));
+		EmployeeDTO employeeDTO = modelMapper.map(employeeData, EmployeeDTO.class);
+		return CommonResponse.builder().data(employeeDTO).status(true).timeStamp(LocalDate.now()).build();
+	}
+
+}

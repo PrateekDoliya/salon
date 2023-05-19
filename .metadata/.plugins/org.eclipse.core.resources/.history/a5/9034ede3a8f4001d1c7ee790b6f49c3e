@@ -1,0 +1,10 @@
+datasource: ''
+ddl-auto: none
+driver-class-name: 'com.mysql.cj.jdbc.Driver '
+hibernate: ''
+jpa: ''
+password: intelliatech
+show-sql: true
+spring: ''
+url: jdbc:mysql://localhost:3306/employeeservice_salonapp
+username: root

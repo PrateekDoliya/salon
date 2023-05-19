@@ -1,0 +1,5 @@
+package com.security.library.dtos;
+
+public class RoleDto {
+
+}

@@ -1,0 +1,68 @@
+package com.customer.service.services.impl;
+
+import java.util.List;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.customer.service.entities.Customer;
+import com.customer.service.exception.ResourceNotFoundException;
+import com.customer.service.repository.CustomerRepository;
+import com.customer.service.requestDto.CustomerRequestDto;
+import com.customer.service.responseDto.CustomerResponseDto;
+import com.customer.service.services.CustomerService;
+
+@Service
+public class CustomerServiceImpl implements CustomerService {
+
+	@Autowired
+	private CustomerRepository customerRepository;
+	
+	@Autowired
+	private ModelMapper mapper;
+	
+	@Override
+	public CustomerResponseDto createCustomer(CustomerRequestDto customerRequestDto) {
+		Customer customer = this.mapper.map(customerRequestDto, Customer.class);
+		Customer savedCustomer = this.customerRepository.save(customer);
+		return this.mapper.map(savedCustomer, CustomerResponseDto.class);
+	}
+
+	@Override
+	public CustomerResponseDto updateCustomer(Integer customerId, CustomerRequestDto customerRequestDto) {
+		Customer customer = this.customerRepository.findById(customerId).orElseThrow(() -> new ResourceNotFoundException("Customer", "customer_id", customerId));
+		customer.setCustomerName(customerRequestDto.getCustomerName());
+		customer.setCustomerEmail(customerRequestDto.getCustomerEmail());
+		customer.setMobileNumber(customerRequestDto.getMobileNumber());
+		customer.setEmployee(customerRequestDto.getEmployee());
+		return null;
+	}
+
+	@Override
+	public CustomerResponseDto deleteCustomer(Integer customerId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<CustomerResponseDto> getAllCustomers() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public CustomerResponseDto getCustomerById(Integer customerId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<CustomerResponseDto> getCustomerByEmployeeId(Integer employeeId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+	
+}

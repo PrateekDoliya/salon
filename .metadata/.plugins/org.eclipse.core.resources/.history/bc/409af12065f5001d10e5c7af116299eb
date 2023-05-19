@@ -1,0 +1,26 @@
+package com.security.library.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import com.security.library.entities.Employee;
+import com.security.library.payloads.EmployeeResponseDto;
+
+import jakarta.transaction.Transactional;
+
+@Repository
+public interface EmployeeAuthRepository extends JpaRepository<EmployeeResponseDto, Integer> {
+//	@Transactional
+//	@Query(
+//		nativeQuery = true, 
+//		value = "select * from employeeservice_salonapp.employee e "
+//				+ "inner join "
+//				+ "employeeservice_salonapp.role r on r.rid=e.role_rid "
+//				+ "inner join "
+//				+ "employeeservice_salonapp.address a on a.aid=e.address_aid "
+//				+ "where e.email= :email")
+//	@Query(nativeQuery = true, value = "select * from employeeservice_salonapp.employee e where e.email= :email")
+	EmployeeResponseDto findByEmail(String email);
+
+}

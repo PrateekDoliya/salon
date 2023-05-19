@@ -1,0 +1,14 @@
+package com.services.service.controller;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.services.service.services.ServicesService;
+
+@RestController
+@RequestMapping("/api/v1/services")
+public class ServicesController {
+
+	private ServicesService
+	
+}

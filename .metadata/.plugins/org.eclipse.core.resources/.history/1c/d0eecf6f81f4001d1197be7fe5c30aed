@@ -1,0 +1,71 @@
+package com.customer.service.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.customer.service.requestDto.CustomerRequestDto;
+import com.customer.service.responseDto.ApiResponse;
+import com.customer.service.responseDto.CustomerResponseDto;
+import com.customer.service.services.CustomerService;
+
+@RestController
+@RequestMapping("/api/v1/customer")
+public class CustomerController {
+
+	@Autowired
+	private CustomerService customerService;
+
+	// CREATE
+	@PostMapping("/create")
+	public ResponseEntity<ApiResponse<CustomerResponseDto>> createCustomer(
+			@RequestBody CustomerRequestDto customerRequestDto) {
+		CustomerResponseDto customerResponseDto = this.customerService.createCustomer(customerRequestDto);
+		return ResponseEntity.status(HttpStatus.CREATED).body(
+				new ApiResponse<CustomerResponseDto>("Customer Created Successfully !!", true, customerResponseDto));
+	}
+
+	// update
+	@PutMapping("/update/{customerId}")
+	public ResponseEntity<ApiResponse<CustomerResponseDto>> updateCustomer(
+			@RequestBody CustomerRequestDto customerRequestDto, @PathVariable Integer customerId) {
+		CustomerResponseDto updateCustomer = this.customerService.updateCustomer(customerId, customerRequestDto);
+		return ResponseEntity.status(HttpStatus.CREATED)
+				.body(new ApiResponse<CustomerResponseDto>("Customer Updated Successfully !!", true, updateCustomer));
+	}
+
+	// update
+	@DeleteMapping("/delete/{customerId}")
+	public ResponseEntity<ApiResponse<CustomerResponseDto>> deleteCustomer(@PathVariable Integer customerId) {
+		CustomerResponseDto deleteCustomer = this.customerService.deleteCustomer(customerId);
+		return ResponseEntity.status(HttpStatus.CREATED)
+				.body(new ApiResponse<CustomerResponseDto>("Customer Deleted Successfully !!", true, deleteCustomer));
+	}
+
+	// GET BY ID
+	@GetMapping("/get/{customerId}")
+	public ResponseEntity<ApiResponse<CustomerResponseDto>> getCustomerById(@PathVariable Integer customerId) {
+		CustomerResponseDto customerById = this.customerService.getCustomerById(customerId);
+		return ResponseEntity.status(HttpStatus.CREATED)
+				.body(new ApiResponse<CustomerResponseDto>("Customer Fetched Successfully !!", true, customerById));
+	}
+	
+	// GET BY EMPLOYEE ID
+	@GetMapping("/get/{employeeId}")
+	public ResponseEntity<ApiResponse<List<CustomerResponseDto>>> getCustomerByEmployeeId(@PathVariable Integer employeeId) {
+		List<CustomerResponseDto> customerByEmployeeId = this.customerService.getCustomerByEmployeeId(employeeId);
+		return ResponseEntity.status(HttpStatus.CREATED)
+				.body(new ApiResponse<List<CustomerResponseDto>>("Customer Fetched Successfully !!", true, customerByEmployeeId));
+	}
+
+}

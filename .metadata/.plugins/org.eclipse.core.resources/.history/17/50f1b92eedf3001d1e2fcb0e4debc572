@@ -1,0 +1,5 @@
+package com.customer.service.test;
+
+public class SimpleEmail {
+
+}

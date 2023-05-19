@@ -1,0 +1,22 @@
+package com.services.service.entities;
+
+import java.util.Date;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+public class Customer {
+
+	private Integer customerId;
+	private String customerName;
+	private String mobileNumber;
+	private String customerEmail;
+	private Date appointmentDate;
+	private Date dateOfOrder;
+	private Employee employee;
+	
+}

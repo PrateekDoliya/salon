@@ -1,0 +1,21 @@
+package com.customer.service.exception;
+
+public class ResourceNotFoundException extends RuntimeException {
+
+	String resourceName;
+	String fieldName;
+	String fieldValue;
+	
+	public ResourceNotFoundException() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public ResourceNotFoundException(String message) {
+		super(message);
+		// TODO Auto-generated constructor stub
+	}
+
+	
+	
+}

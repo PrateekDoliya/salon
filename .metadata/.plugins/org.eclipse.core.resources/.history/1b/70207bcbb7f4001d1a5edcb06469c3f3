@@ -1,0 +1,15 @@
+package com.security.library.payloads;
+
+public class CommonResponse {
+
+	private String message;
+	private Integer statusCode;
+	private Object data;
+	
+	public CommonResponse(String message, Integer statusCode) {
+		super();
+		this.message = message;
+		this.statusCode = statusCode;
+	}
+	
+}

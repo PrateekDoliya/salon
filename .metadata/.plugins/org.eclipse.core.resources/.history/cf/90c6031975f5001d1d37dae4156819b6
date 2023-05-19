@@ -1,0 +1,12 @@
+package com.auth.service.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import com.security.library.entities.Employee;
+
+public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
+
+	@Query(nativeQuery = true, value = "select * from employee e where e.email= :email")
+	Employee findByEmail(String email);
+}

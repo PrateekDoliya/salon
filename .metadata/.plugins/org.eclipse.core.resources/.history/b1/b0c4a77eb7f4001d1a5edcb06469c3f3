@@ -1,0 +1,26 @@
+package com.auth.service.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.auth.service.repository.EmployeeRepository;
+import com.auth.service.requestDto.LoginRequest;
+import com.auth.service.responseDto.LoginResponse;
+import com.auth.service.service.EmployeeAuthenticationService;
+
+@Service
+public class EmployeeAuthenticationServiceImpl implements EmployeeAuthenticationService {
+
+	@Autowired
+	private EmployeeRepository employeeRepository;
+	private Logger logger = LoggerFactory.getLogger(EmployeeAuthenticationService.class);
+
+	@Override
+	public LoginResponse doLogin(LoginRequest loginRequest) {
+		
+		return null;
+	}
+	
+	
+	
+}

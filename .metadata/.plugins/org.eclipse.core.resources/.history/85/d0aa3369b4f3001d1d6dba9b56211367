@@ -1,0 +1,19 @@
+package com.services.service.services;
+
+public interface ServicesService {
+
+	// CREATE
+	
+	// UPDAtE
+	
+	// DELETE
+	
+	// GET ALL
+	
+	// GET BY ID
+	
+	// GET BY EMPLOYEE
+	
+	// GET BY CUSTOMER
+	
+}

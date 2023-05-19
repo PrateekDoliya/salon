@@ -1,0 +1,14 @@
+package com.security.library.payloads;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import jakarta.persistence.Id;
+
+public class RoleResponseDTO {
+
+	private Integer rid;
+	private String name;
+	private Set<String> authorities = new HashSet<>();
+	
+}

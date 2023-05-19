@@ -1,0 +1,72 @@
+package com.services.service.services.impl;
+
+import java.util.List;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.services.service.entities.Services;
+import com.services.service.exception.ResourceNotFoundException;
+import com.services.service.repository.ServicesRepository;
+import com.services.service.requestDto.ServiceRequestDto;
+import com.services.service.responseDto.ServiceResponseDto;
+import com.services.service.services.ServicesService;
+
+public class ServicesServiceImpl implements ServicesService {
+
+	@Autowired
+	private ServicesRepository servicesRepository;
+	
+	@Autowired
+	private ModelMapper mapper;
+
+	@Override
+	public ServiceResponseDto createService(ServiceRequestDto serviceRequestDto) {
+		Services services = this.mapper.map(serviceRequestDto, Services.class);
+		Services savedService = this.servicesRepository.save(services);
+		return this.mapper.map(savedService, ServiceResponseDto.class);
+	}
+
+	@Override
+	public ServiceResponseDto updateService(Integer serviceId, ServiceRequestDto serviceRequestDto) {
+		Services serviceById = this.servicesRepository.findById(serviceId).orElseThrow(() -> new ResourceNotFoundException("Service", "service_id", serviceId));
+		serviceById.setService(serviceRequestDto.getService());
+		serviceById.setEmployee(serviceRequestDto.getEmployee();
+		serviceById.setAppointmentBooking(serviceRequestDto.getAppointmentBooking());
+		serviceById.setCustomers(serviceRequestDto.getCustomers());
+		return null;
+	}
+
+	@Override
+	public ServiceResponseDto deleteService(Integer serviceId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ServiceResponseDto> getAllServices() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ServiceResponseDto getServiceById(Integer serviceId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ServiceResponseDto getServiceByName(String serviceName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ServiceResponseDto getServiceByEmployeeId(Integer employeeId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+	
+}

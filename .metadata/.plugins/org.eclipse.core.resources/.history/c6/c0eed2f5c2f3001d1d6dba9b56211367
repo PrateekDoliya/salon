@@ -1,0 +1,33 @@
+package com.services.service.entities;
+
+import java.util.Date;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+public class Employee {
+
+	private String employeeId;
+	private String firstName;
+	private String lastName;
+	private String email;
+	private String mobileNumber;
+	private Date DateOfBirth;
+	private Date DateOfJoining;
+	private Date lastWorkingDate;
+	private String panCard;
+	private String aadharCard;
+	private String role;
+	private String address;
+	private String gender;
+	private String familyDetails;
+	private String serviceCategory;
+	private String appoinment;
+	private String photo;
+	private String attendence;
+	
+}

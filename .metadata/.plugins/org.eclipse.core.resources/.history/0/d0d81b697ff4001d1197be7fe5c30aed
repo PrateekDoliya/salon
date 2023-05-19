@@ -1,0 +1,9 @@
+package com.customer.service.responseDto;
+
+public class ApiResponse <T>{
+
+	private String message;
+	private Boolean success;
+	private T data;
+	
+}

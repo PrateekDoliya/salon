@@ -1,0 +1,62 @@
+package com.auth.service.service.impl;
+
+import java.time.LocalDate;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
+
+import com.auth.service.entities.Employee;
+import com.auth.service.repository.EmployeeRepository;
+import com.auth.service.requestDto.LoginRequest;
+import com.auth.service.responseDto.LoginResponse;
+import com.auth.service.service.EmployeeAuthenticationService;
+import com.security.library.jwt.util.JwtTokenUtil;
+import com.security.library.payloads.CommonResponse;
+
+@Service
+public class EmployeeAuthenticationServiceImpl<T> implements EmployeeAuthenticationService {
+
+	@Autowired
+	private EmployeeRepository employeeRepository;
+	
+	@Autowired
+	private JwtTokenUtil jwtTokenUtil;
+	
+	private Logger logger = LoggerFactory.getLogger(EmployeeAuthenticationService.class);
+
+	@Override
+	public T doLogin(LoginRequest loginRequest) {
+		if(loginRequest.getEmail() == null || loginRequest.getPassword() == null ) {
+			logger.info("LoginService :  UserName and Password Can't be empty!!");
+			return (T) new CommonResponse("UserName and Password Can't be empty!!", 400 );	 
+		}
+		
+		Employee employee = this.employeeRepository.findByEmail(loginRequest.getEmail());
+		logger.info("LoginService : Login User : {}", employee);
+		
+		if(employee == null) {
+			logger.info("LoginService : User not found !!");
+			return (T) new CommonResponse("User not found!!", 404);
+		}
+		
+		if(!employee.getPassword().equals(loginRequest.getPassword())) {
+			logger.info("LoginService : Password mismatch !!");
+			return (T) new CommonResponse("invalid Password", 404);
+		}
+		
+		logger.info("LoginService : Password matched !!");
+		UserDetails userDetails= new org.springframework.security.core.userdetails.User(request.getEmail(), request.getPassword(), false, false, false, false, new ArrayList<>());
+		
+		String token = this.jwtTokenUtil.generateToken(userDetails);
+		logger.info("LoginService : login Success : {}", employee);
+		
+		
+		return (T) new LoginResponse(token, LocalDate.now(), employee);
+	}
+	
+	
+	
+}

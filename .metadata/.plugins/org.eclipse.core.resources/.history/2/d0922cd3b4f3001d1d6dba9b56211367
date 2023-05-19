@@ -1,0 +1,5 @@
+package com.services.service.repository;
+
+public interface ServicesRepository {
+
+}

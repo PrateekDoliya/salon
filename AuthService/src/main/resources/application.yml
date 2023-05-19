@@ -1,0 +1,14 @@
+server:
+  port: 8084
+  
+spring:
+  application:
+    name: AUTH-SERVICE
+  datasource:
+    url: jdbc:mysql://localhost:3306/employeeservice_salonapp
+    username: root
+    password: intelliatech
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none

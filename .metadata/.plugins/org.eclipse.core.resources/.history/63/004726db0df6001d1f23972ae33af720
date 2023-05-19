@@ -1,0 +1,44 @@
+package com.security.library.jwt;
+
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.security.library.entities.EmployeeData;
+import com.security.library.repository.EmployeeAuthRepository;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Service
+@Slf4j
+public class JwtUserDetailsService implements UserDetailsService {
+
+	@Autowired
+	private EmployeeAuthRepository employeeAuthRepository;
+
+	@Override
+	@Transactional
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+		EmployeeData employeeData = this.employeeAuthRepository.findByEmail(username);
+		
+		System.out.println("FROM JWT-USER-DETAILS:++++++++:"+ employeeData);
+		
+		Set<SimpleGrantedAuthority> authority = new HashSet<>();
+		Set<SimpleGrantedAuthority> authorities = employeeData.getRole().getAuthorities().stream()
+				.map(auth -> new SimpleGrantedAuthority(auth)).collect(Collectors.toSet());
+		return new User(username, employeeData.get().getPassword(), true, true, true, true, new HashSet<>());
+
+	}
+
+}

@@ -1,0 +1,39 @@
+package com.security.library.jwt;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+import com.security.library.entities.Employee;
+import com.security.library.repository.EmployeeAuthRepository;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Service
+@Slf4j
+public class JwtUserDetailsService implements UserDetailsService {
+
+	@Autowired
+	private EmployeeAuthRepository employeeAuthRepository;
+	
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		
+		Employee employee = this.employeeAuthRepository.findByEmail(username);
+		
+		log.warn("USERNAME:"+username);
+		log.warn("USER-D:"+employee);
+		
+		
+//		Set<SimpleGrantedAuthority> authority= new HashSet<>();
+//		authority.add(new SimpleGrantedAuthority("Read"));
+//		authority.add(new SimpleGrantedAuthority("Create"));
+//		authority.add(new SimpleGrantedAuthority("Delete"));
+//		authority.add(new SimpleGrantedAuthority("ROLE_EMPLOYEE"));
+		return employee;
+	}
+
+}

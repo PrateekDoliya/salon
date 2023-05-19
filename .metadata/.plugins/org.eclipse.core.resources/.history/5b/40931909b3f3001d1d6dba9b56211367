@@ -1,0 +1,5 @@
+package com.services.service.requestDto;
+
+public class ServiceRequestDto {
+
+}
